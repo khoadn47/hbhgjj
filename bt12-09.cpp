@@ -2,7 +2,6 @@
 #include <cmath>
 using namespace std;
 
-// Interface
 class Hinh {
 public:
     virtual void Nhap() = 0;
@@ -12,7 +11,6 @@ public:
     virtual ~Hinh() {}
 };
 
-// Hình tròn
 class HinhTron : public Hinh {
     double r;
 public:
@@ -34,7 +32,6 @@ public:
     }
 };
 
-// Hình chữ nhật
 class HinhChuNhat : public Hinh {
     double dai, rong;
 public:
@@ -56,7 +53,6 @@ public:
     }
 };
 
-// Hình tam giác
 class HinhTamGiac : public Hinh {
     double a, b, c;
 public:
