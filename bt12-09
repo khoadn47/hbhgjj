@@ -1,0 +1,105 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+// Interface
+class Hinh {
+public:
+    virtual void Nhap() = 0;
+    virtual void HienThi() = 0;
+    virtual double GetDienTich() = 0;
+    virtual double GetChuVi() = 0;
+    virtual ~Hinh() {}
+};
+
+// Hình tròn
+class HinhTron : public Hinh {
+    double r;
+public:
+    HinhTron(double r = 1) : r(r > 0 ? r : 1) {}
+
+    void Nhap() override {
+        do {
+            cout << "Nhap ban kinh: ";
+            cin >> r;
+        } while (r <= 0);
+    }
+
+    double GetDienTich() override { return 3.14 * r * r; }
+    double GetChuVi() override { return 2 * 3.14 * r; }
+
+    void HienThi() override {
+        cout << "Hinh tron: DT = " << GetDienTich()
+             << ", CV = " << GetChuVi() << endl;
+    }
+};
+
+// Hình chữ nhật
+class HinhChuNhat : public Hinh {
+    double dai, rong;
+public:
+    HinhChuNhat(double d = 1, double r = 1) : dai(d), rong(r) {}
+
+    void Nhap() override {
+        do {
+            cout << "Nhap dai, rong: ";
+            cin >> dai >> rong;
+        } while (dai <= 0 || rong <= 0);
+    }
+
+    double GetDienTich() override { return dai * rong; }
+    double GetChuVi() override { return 2 * (dai + rong); }
+
+    void HienThi() override {
+        cout << "Hinh chu nhat: DT = " << GetDienTich()
+             << ", CV = " << GetChuVi() << endl;
+    }
+};
+
+// Hình tam giác
+class HinhTamGiac : public Hinh {
+    double a, b, c;
+public:
+    HinhTamGiac(double a = 1, double b = 1, double c = 1)
+        : a(a), b(b), c(c) {}
+
+    bool IsTamGiac() {
+        return a > 0 && b > 0 && c > 0 &&
+               a + b > c && a + c > b && b + c > a;
+    }
+
+    void Nhap() override {
+        do {
+            cout << "Nhap 3 canh: ";
+            cin >> a >> b >> c;
+        } while (!IsTamGiac());
+    }
+
+    double GetChuVi() override { return a + b + c; }
+
+    double GetDienTich() override {
+        double p = GetChuVi() / 2;
+        return sqrt(p * (p-a) * (p-b) * (p-c));
+    }
+
+    void HienThi() override {
+        cout << "Hinh tam giac: DT = " << GetDienTich()
+             << ", CV = " << GetChuVi() << endl;
+    }
+};
+
+int main() {
+    Hinh* h[3];
+
+    h[0] = new HinhTron();
+    h[1] = new HinhChuNhat();
+    h[2] = new HinhTamGiac();
+
+    for (int i = 0; i < 3; i++) {
+        h[i]->Nhap();
+        h[i]->HienThi();
+        delete h[i];
+    }
+
+    return 0;
+}
